@@ -11,7 +11,7 @@
 
 namespace faiss {
 
-bool faiss_use_avx512 = true;
+bool faiss_use_avx512 = false;
 bool faiss_use_avx2 = true;
 bool faiss_use_sse4_2 = true;
 
