@@ -1609,6 +1609,28 @@ namespace diskann {
                   << "s, inter_time=" << total_inter_time
                   << "s, inter_count=" << total_inter_count;
       }
+      {
+        FILE* file = fopen("/proc/self/status", "r");
+        int result = -1;
+        char line[128];
+
+        while (fgets(line, 128, file) != nullptr) {
+          if (strncmp(line, "VmRSS:", 6) == 0) {
+            int len = strlen(line);
+
+            const char* p = line;
+            for (; std::isdigit(*p) == false; ++p) {}
+
+            line[len - 3] = 0;
+            result = atoi(p);
+            break;
+          }
+        }
+
+        fclose(file);
+
+        std::cout << "debug zcccccc" << result << std::endl;
+      }
     }
 
     if (_nd > 0) {
@@ -1745,6 +1767,28 @@ namespace diskann {
         for (uint64_t i = 0; i < file_num_points; i++) {
           normalize(_data + _aligned_dim * i, _aligned_dim);
         }
+      }
+      {
+        FILE* file = fopen("/proc/self/status", "r");
+        int result = -1;
+        char line[128];
+
+        while (fgets(line, 128, file) != nullptr) {
+          if (strncmp(line, "VmRSS:", 6) == 0) {
+            int len = strlen(line);
+
+            const char* p = line;
+            for (; std::isdigit(*p) == false; ++p) {}
+
+            line[len - 3] = 0;
+            result = atoi(p);
+            break;
+          }
+        }
+
+        fclose(file);
+
+        std::cout << "debug zcccccc" << result << std::endl;
       }
 
       LOG(INFO) << "Building start. Loading only first " << num_points_to_load

@@ -1045,6 +1045,28 @@ namespace diskann {
         data_file_to_use.c_str(), diskann::Metric::L2, L, R,
         config.accelerate_build, p_val, indexing_ram_budget, mem_index_path,
         medoids_path, centroids_path);
+    {
+      FILE* file = fopen("/proc/self/status", "r");
+      int result = -1;
+      char line[128];
+
+      while (fgets(line, 128, file) != nullptr) {
+        if (strncmp(line, "VmRSS:", 6) == 0) {
+          int len = strlen(line);
+
+          const char* p = line;
+          for (; std::isdigit(*p) == false; ++p) {}
+
+          line[len - 3] = 0;
+          result = atoi(p);
+          break;
+        }
+      }
+
+      fclose(file);
+
+      std::cout << "debug zcccccc" << result << std::endl;
+    }
     auto graph_e = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> graph_diff = graph_e - graph_s;
     LOG(INFO) << "Training graph cost: " << graph_diff.count() << "s";
@@ -1079,6 +1101,28 @@ namespace diskann {
     auto                          e = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> diff = e - s;
     LOG(INFO) << "Indexing time: " << diff.count();
+    {
+      FILE* file = fopen("/proc/self/status", "r");
+      int result = -1;
+      char line[128];
+
+      while (fgets(line, 128, file) != nullptr) {
+        if (strncmp(line, "VmRSS:", 6) == 0) {
+          int len = strlen(line);
+
+          const char* p = line;
+          for (; std::isdigit(*p) == false; ++p) {}
+
+          line[len - 3] = 0;
+          result = atoi(p);
+          break;
+        }
+      }
+
+      fclose(file);
+
+      std::cout << "debug zcccccc" << result << std::endl;
+    }
 
     return 0;
   }
